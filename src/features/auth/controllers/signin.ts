@@ -7,8 +7,13 @@ import { authService } from 'src/shared/services/db/auth.service';
 import { BadRequestError } from 'src/shared/globals/helpers/error-handler';
 import { loginSchema } from '../schemes/signin';
 import { IAuthDocument } from '../interfaces/auth.interface';
-import { IUserDocument } from 'src/features/user/interfaces/user.interface';
+import { IResetPasswordParams, IUserDocument } from 'src/features/user/interfaces/user.interface';
 import { userService } from 'src/shared/services/db/user.service';
+// import { forgotPasswordTemplate } from 'src/shared/services/emails/templates/forgot-password/forgot-password-templates';
+import { emailQueue } from 'src/shared/services/queues/email.queue';
+import moment from 'moment';
+import publicIP from 'ip';
+import { resetPasswordTemplate } from 'src/shared/services/emails/templates/reset-password/reset-password-template';
 
 export class SignIn {
   @joiValidation(loginSchema)
@@ -36,6 +41,20 @@ export class SignIn {
       },
       config.JWT_TOKEN!
     );
+
+    const templateParams: IResetPasswordParams = {
+      username: existingUser.username!,
+      email: existingUser.email!,
+      ipaddress: publicIP.address(),
+      date: moment().format('DD/MM/YYYY HH:mm:ss')
+    };
+
+    const template: string = resetPasswordTemplate.passwordResetConfirmationTemplate(templateParams);
+    emailQueue.addEmailJob('forgotPasswordEmail', {
+      template,
+      receiverEmail: 'kaleigh.watsica@ethereal.email',
+      subject: 'Password reset confirmation '
+    });
 
     req.session = { Jwt: userJWT };
 
