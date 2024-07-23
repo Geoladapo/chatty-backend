@@ -19,22 +19,32 @@
     "allowSyntheticDefaultImports": true,
     "pretty": true,
     "resolveJsonModule": true,
-    "plugins": [{ "transform": "typescript-transform-paths" }, { "transform": "typescript-transform-paths", "afterDeclarations": true }]
+    "plugins": [
+      {
+        "transform": "typescript-transform-paths"
+      },
+      {
+        "transform": "typescript-transform-paths",
+        "afterDeclarations": true
+      }
+    ],
+    "paths": {
+      "@/auth/*": ["src/features/auth/*"],
+      "@/user/*": ["src/features/user/*"],
+      "@/post/*": ["src/features/post/*"],
+      "@/reaction/*": ["src/features/reaction/*"],
+      "@/comment/*": ["src/features/comment/*"],
+      "@/follower/*": ["src/features/follower/*"],
+      "@/notification/*": ["src/features/notification/*"],
+      "@/image/*": ["src/features/image/*"],
+      "@/chat/*": ["src/features/chat/*"],
+      "@/global/*": ["src/shared/global/*"],
+      "@/service/*": ["src/shared/services/*"],
+      "@/socket/*": ["src/shared/sockets/*"],
+      "@/worker/*": ["src/shared/workers/*"],
+      "@/root/*": ["src/*"] // always in last
+    }
   },
-  "paths": {
-    "@auth/*": ["src/features/auth/*"],
-    "@user/*": ["src/features/user/*"],
-    "@post/*": ["src/features/post/*"],
-    "@reaction/*": ["src/features/reactions/*"],
-    "@comment/*": ["src/features/comments/*"],
-    "@follower/*": ["src/features/followers/*"],
-    "@notification/*": ["src/features/notifications/*"],
-    "@image/*": ["src/features/images/*"],
-    "@chat/*": ["src/features/chat/*"],
-    "@global/*": ["src/shared/globals/*"],
-    "@service/*": ["src/shared/services/*"],
-    "@socket/*": ["src/shared/sockets/*"],
-    "@worker/*": ["src/shared/workers/*"],
-    "@root/*": ["src/*"]
-  }
+  "exclude": ["./jest.config.ts"],
+  "include": ["src/**/*", "src/**/*.ejs"]
 }

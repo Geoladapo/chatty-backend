@@ -1,5 +1,8 @@
+// import { BaseQueue } from './base.queue';
+// import { userWorker } from 'src/shared/workers/user.worker';
+
+import { userWorker } from '@/worker/user.worker';
 import { BaseQueue } from './base.queue';
-import { userWorker } from 'src/shared/workers/user.worker';
 
 class UserQueue extends BaseQueue {
   constructor() {
