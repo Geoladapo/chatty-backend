@@ -2,8 +2,8 @@ import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import Logger from 'bunyan';
 import sendGridMail from '@sendgrid/mail';
-import { config } from 'src/config';
-import { BadRequestError } from 'src/shared/globals/helpers/error-handler';
+import { config } from '@/root/config';
+import { BadRequestError } from '../../globals/helpers/error-handler';
 
 interface IMailOptions {
   from: string;
@@ -13,14 +13,14 @@ interface IMailOptions {
 }
 
 const log: Logger = config.createLogger('mailOptions');
-sendGridMail.setApiKey(config.SENDGRID_API_KEY!);
+// sendGridMail.setApiKey(config.SENDGRID_API_KEY!);
 
 class MailTransport {
   public async sendEmail(receiverEmail: string, subject: string, body: string): Promise<void> {
     if (config.NODE_ENV === 'test' || config.NODE_ENV === 'development') {
       this.developmentEmailSender(receiverEmail, subject, body);
     } else {
-      this.productionEmailSender(receiverEmail, subject, body);
+      // this.productionEmailSender(receiverEmail, subject, body);
     }
   }
 
@@ -51,22 +51,22 @@ class MailTransport {
     }
   }
 
-  private async productionEmailSender(receiverEmail: string, subject: string, body: string): Promise<void> {
-    const mailOptions: IMailOptions = {
-      from: `Chatty App <${config.SENDER_EMAIL}>`,
-      to: receiverEmail,
-      subject,
-      html: body
-    };
+  // private async productionEmailSender(receiverEmail: string, subject: string, body: string): Promise<void> {
+  //   const mailOptions: IMailOptions = {
+  //     from: `Chatty App <${config.SENDER_EMAIL}>`,
+  //     to: receiverEmail,
+  //     subject,
+  //     html: body
+  //   };
 
-    try {
-      await sendGridMail.send(mailOptions);
-      log.info('Production email sent successfully');
-    } catch (error) {
-      log.error('Error sending email', error);
-      throw new BadRequestError('Error sending email');
-    }
-  }
+  //   try {
+  //     await sendGridMail.send(mailOptions);
+  //     log.info('Production email sent successfully');
+  //   } catch (error) {
+  //     log.error('Error sending email', error);
+  //     throw new BadRequestError('Error sending email');
+  //   }
+  // }
 }
 
 export const mailTransport: MailTransport = new MailTransport();

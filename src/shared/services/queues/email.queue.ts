@@ -1,6 +1,7 @@
-import { IEmailJob } from 'src/features/user/interfaces/user.interface';
+
+import { emailWorker } from '@/worker/email.worker';
 import { BaseQueue } from './base.queue';
-import { emailWorker } from 'src/shared/workers/email.worker';
+import { IEmailJob } from '@/user/interfaces/user.interface';
 
 class EmailQueue extends BaseQueue {
   constructor() {
