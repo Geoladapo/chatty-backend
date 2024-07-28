@@ -3,14 +3,12 @@ import Logger from 'bunyan';
 import { createBullBoard } from '@bull-board/api';
 import { BullAdapter } from '@bull-board/api/bullAdapter';
 import { ExpressAdapter } from '@bull-board/express';
-// import { config } from 'src/config';
-// import { IAuthJob } from 'src/features/auth/interfaces/auth.interface';
-// import { IEmailJob } from 'src/features/user/interfaces/user.interface';
 import { config } from '@/root/config';
 import { IAuthJob } from '@/auth/interfaces/auth.interface';
 import { IEmailJob } from '@/user/interfaces/user.interface';
+import { IPostJobData } from '@/post/interfaces/post.interface';
 
-type IBaseJobData = IAuthJob | IEmailJob;
+type IBaseJobData = IAuthJob | IEmailJob | IPostJobData;
 
 let bullAdapters: BullAdapter[] = [];
 export let serverAdapter: ExpressAdapter;
