@@ -1,9 +1,6 @@
 import { IUserDocument } from 'src/features/user/interfaces/user.interface';
 import { BaseCache } from './base.cache';
 import Logger from 'bunyan';
-// import { ServerError } from 'src/shared/globals/helpers/error-handler';
-// import { config } from 'src/config';
-// import { Helpers } from 'src/shared/globals/helpers/helpers';
 import { ServerError } from '../../globals/helpers/error-handler';
 import { config } from '@/root/config';
 import { Helpers } from '../../globals/helpers/helpers';
