@@ -1,3 +1,4 @@
+import { SocketIOFollowerHandler } from './shared/sockets/follower';
 import { Application, json, urlencoded, Response, Request, NextFunction } from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -15,6 +16,7 @@ import Logger from 'bunyan';
 import applicationRoutes from './routes';
 import { CustomError, IErrorResponse } from './shared/globals/helpers/error-handler';
 import { SocketIOPostHandler } from '@/socket/post.socket';
+import { SocketIOUserHandler } from '@/socket/user';
 
 const SERVER_PORT = 5000;
 const log: Logger = config.createLogger('server');
@@ -115,7 +117,11 @@ export class ChattyServer {
 
   private socketIOConnections(io: Server): void {
     const postSocketHandler: SocketIOPostHandler = new SocketIOPostHandler(io);
+    const followerSocketHandler: SocketIOFollowerHandler = new SocketIOFollowerHandler(io);
+    const userSocketHandler: SocketIOUserHandler = new SocketIOUserHandler(io);
 
     postSocketHandler.listen();
+    followerSocketHandler.listen();
+    userSocketHandler.listen();
   }
 }
