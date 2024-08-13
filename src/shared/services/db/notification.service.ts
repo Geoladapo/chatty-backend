@@ -4,7 +4,7 @@ import mongoose from 'mongoose';
 
 class NotificationService {
   // A method to get notifications
-  public async getNotications(userId: string): Promise<INotificationDocument[]> {
+  public async getNotifications(userId: string): Promise<INotificationDocument[]> {
     const notifications: INotificationDocument[] = await NotificationModel.aggregate([
       { $match: { userTo: new mongoose.Types.ObjectId(userId) } },
       { $lookup: { from: 'User', localField: 'userFrom', foreignField: '_id', as: 'userFrom' } },
@@ -37,6 +37,14 @@ class NotificationService {
       }
     ]);
     return notifications;
+  }
+
+  public async updateNotification(notificationId: string): Promise<void> {
+    await NotificationModel.updateOne({ _id: notificationId }, { $set: { read: true } }).exec();
+  }
+
+  public async deleteNotification(notificationId: string): Promise<void> {
+    await NotificationModel.deleteOne({ _id: notificationId }).exec();
   }
 }
 

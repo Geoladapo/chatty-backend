@@ -53,7 +53,7 @@ notificationSchema.methods.insertNotification = async function (body: INotificat
     gifUrl
   ]);
   try {
-    const notifications: INotificationDocument[] = await notificationService.getNotications(userTo);
+    const notifications: INotificationDocument[] = await notificationService.getNotifications(userTo);
     return notifications;
   } catch (error) {
     return error;
