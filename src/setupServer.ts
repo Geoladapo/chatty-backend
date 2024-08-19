@@ -18,6 +18,7 @@ import { CustomError, IErrorResponse } from './shared/globals/helpers/error-hand
 import { SocketIOPostHandler } from '@/socket/post.socket';
 import { SocketIOUserHandler } from '@/socket/user';
 import { SocketIONotificationHandler } from '@/socket/notification';
+import { SocketIOImageHandler } from '@/socket/image';
 
 const SERVER_PORT = 5000;
 const log: Logger = config.createLogger('server');
@@ -121,10 +122,12 @@ export class ChattyServer {
     const followerSocketHandler: SocketIOFollowerHandler = new SocketIOFollowerHandler(io);
     const userSocketHandler: SocketIOUserHandler = new SocketIOUserHandler(io);
     const notificationSocketHandler: SocketIONotificationHandler = new SocketIONotificationHandler();
+    const imageSocketHandler: SocketIOImageHandler = new SocketIOImageHandler();
 
     postSocketHandler.listen();
     followerSocketHandler.listen();
     userSocketHandler.listen();
     notificationSocketHandler.listen(io);
+    imageSocketHandler.listen(io);
   }
 }

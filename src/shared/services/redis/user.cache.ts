@@ -1,4 +1,5 @@
-import { IUserDocument } from 'src/features/user/interfaces/user.interface';
+import { RedisCommandRawReply } from '@redis/client/dist/lib/commands';
+import { INotificationSettings, ISocialLinks, IUserDocument } from 'src/features/user/interfaces/user.interface';
 import { BaseCache } from './base.cache';
 import Logger from 'bunyan';
 import { ServerError } from '../../globals/helpers/error-handler';
@@ -6,6 +7,8 @@ import { config } from '@/root/config';
 import { Helpers } from '../../globals/helpers/helpers';
 
 const log: Logger = config.createLogger('redisConnection');
+type UserItem = string | ISocialLinks | INotificationSettings;
+// type UserCacheMultiType = string | number | Buffer | RedisCommandRawReply[] | IUserDocument | IUserDocument[];
 
 export class UserCache extends BaseCache {
   constructor() {
@@ -95,6 +98,20 @@ export class UserCache extends BaseCache {
       response.location = Helpers.parseJson(`${response.location}`);
       response.quote = Helpers.parseJson(`${response.quote}`);
 
+      return response;
+    } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again.');
+    }
+  }
+
+  public async updateSingleUserItemInCache(userId: string, prop: string, value: UserItem): Promise<IUserDocument | null> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      await this.client.HSET(`users:${userId}`, `${prop}`, JSON.stringify(value));
+      const response: IUserDocument = (await this.getUserFromCache(userId)) as IUserDocument;
       return response;
     } catch (error) {
       log.error(error);
