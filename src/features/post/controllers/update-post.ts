@@ -9,6 +9,7 @@ import { postSchema, postWithImageSchema, postWithVideoSchema } from '../schemes
 import { UploadApiResponse } from 'cloudinary';
 import { uploads } from '@/root/shared/globals/helpers/cloudinary-upload';
 import { BadRequestError } from '@/root/shared/globals/helpers/error-handler';
+import { imageQueue } from '@/service/queues/image.queue';
 
 const postCache: PostCache = new PostCache();
 
@@ -108,6 +109,11 @@ export class Update {
     postQueue.addPostJob('updatePostInDB', { key: postId, value: postUpdated });
 
     // call image queue to add image to mongo Database
+    imageQueue.addImageJob('addImageToDB', {
+      key: `${req.currentUser!.username}`,
+      imgId: result.public_id,
+      imgVersion: result.version.toString()
+    });
 
     return result;
   }
