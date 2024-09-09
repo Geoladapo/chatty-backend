@@ -80,8 +80,11 @@ export class Add {
         messageData
       });
     }
+
+    // Add chatList for current user and receiver to cache
     await messageCache.addChatListToCache(`${req.currentUser!.userId}`, `${receiverId}`, `${conversationObjectId}`);
     await messageCache.addChatListToCache(`${receiverId}`, `${req.currentUser!.userId}`, `${conversationObjectId}`);
+    // Add chat Message to Cache
     await messageCache.addChatMessageToCache(`${conversationId}`, messageData);
   }
 
