@@ -14,8 +14,10 @@ import { INotificationTemplate } from '../../notifications/interfaces/notifcatio
 import { notificationTemplate } from '@/service/emails/templates/notifications/notification-template';
 import { emailQueue } from '@/service/queues/email.queue';
 import { socketIOChatObject } from '@/socket/chat';
+import { MessageCache } from '@/service/redis/chat.cache';
 
 const userCache: UserCache = new UserCache();
+const messageCache: MessageCache = new MessageCache();
 
 export class Add {
   @joiValidation(addChatSchema)
@@ -78,6 +80,8 @@ export class Add {
         messageData
       });
     }
+    await messageCache.addChatListToCache(`${req.currentUser!.userId}`, `${receiverId}`, `${conversationObjectId}`);
+    await messageCache.addChatListToCache(`${receiverId}`, `${req.currentUser!.userId}`, `${conversationObjectId}`);
   }
 
   private emitSocketIOEvent(data: IMessageData): void {
