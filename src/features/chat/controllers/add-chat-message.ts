@@ -82,6 +82,7 @@ export class Add {
     }
     await messageCache.addChatListToCache(`${req.currentUser!.userId}`, `${receiverId}`, `${conversationObjectId}`);
     await messageCache.addChatListToCache(`${receiverId}`, `${req.currentUser!.userId}`, `${conversationObjectId}`);
+    await messageCache.addChatMessageToCache(`${conversationId}`, messageData);
   }
 
   private emitSocketIOEvent(data: IMessageData): void {
