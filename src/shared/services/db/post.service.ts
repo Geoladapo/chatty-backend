@@ -39,7 +39,7 @@ class PostService {
   }
 
   public async editPost(postId: string, updatedPost: IPostDocument): Promise<void> {
-    // $set is used to updated an object
+    // $set is used to updated a document
     const updatePost: UpdateQuery<IPostDocument> = UserModel.updateOne({ _id: postId }, { $set: updatedPost });
     await Promise.all([updatePost]);
   }
