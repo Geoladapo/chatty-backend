@@ -12,6 +12,7 @@ import { ICommentJob } from '@/root/features/comments/interfaces/comment.interfa
 import { IBlockedUserJobData, IFollowerJobData } from '@/root/features/followers/interfaces/follower.interface';
 import { INotificationJobData } from '@/root/features/notifications/interfaces/notifcation.interface';
 import { IFileImageJobData } from '@/root/features/images/interfcaes/image.interfcae';
+import { IMessageData } from '@/chat/interfaces/chat.interfaces';
 
 type IBaseJobData =
   | IAuthJob
@@ -22,7 +23,8 @@ type IBaseJobData =
   | IFollowerJobData
   | IBlockedUserJobData
   | INotificationJobData
-  | IFileImageJobData;
+  | IFileImageJobData
+  | IMessageData;
 
 let bullAdapters: BullAdapter[] = [];
 export let serverAdapter: ExpressAdapter;
