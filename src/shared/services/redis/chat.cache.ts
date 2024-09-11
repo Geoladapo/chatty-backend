@@ -2,7 +2,7 @@ import { BaseCache } from './base.cache';
 import Logger from 'bunyan';
 import { config } from '@/root/config';
 import { ServerError } from '../../globals/helpers/error-handler';
-import { find, findIndex } from 'lodash';
+import { filter, find, findIndex } from 'lodash';
 import { IChatList, IChatUsers, IGetMessageFromCache, IMessageData } from '@/chat/interfaces/chat.interfaces';
 import { Helpers } from '../../globals/helpers/helpers';
 
@@ -148,6 +148,31 @@ export class MessageCache extends BaseCache {
       await this.client.LSET(`messages:${receiver.conversationId}`, index, JSON.stringify(chatItem));
 
       const lastMessage: string = (await this.client.LINDEX(`messages:${receiver.conversationId}`, index)) as string;
+      return Helpers.parseJson(lastMessage) as IMessageData;
+    } catch (error) {
+      log.error(error);
+      throw new ServerError('Server error. Try again.');
+    }
+  }
+
+  public async updateChatMessages(senderId: string, receiverId: string): Promise<IMessageData> {
+    try {
+      if (!this.client.isOpen) {
+        await this.client.connect();
+      }
+      const userChatList: string[] = await this.client.LRANGE(`chatList:${senderId}`, 0, -1);
+      const receiver: string = find(userChatList, (listItem: string) => listItem.includes(receiverId)) as string;
+      const parsedReceiver: IChatList = Helpers.parseJson(receiver) as IChatList;
+      const messages: string[] = await this.client.LRANGE(`messages${parsedReceiver.conversationId}`, 0, -1);
+      const unreadMessages: string[] = filter(messages, (listItem: string) => !Helpers.parseJson(listItem).isRead);
+
+      for (const item of unreadMessages) {
+        const chatItem = Helpers.parseJson(item) as IMessageData;
+        const index = findIndex(messages, (listItem: string) => listItem.includes(`${chatItem._id}`));
+        chatItem.isRead = true;
+        await this.client.LSET(`messages${parsedReceiver.conversationId}`, index, JSON.stringify(chatItem));
+      }
+      const lastMessage: string = (await this.client.LINDEX(`messages:${parsedReceiver.conversationId}`, -1)) as string;
       return Helpers.parseJson(lastMessage) as IMessageData;
     } catch (error) {
       log.error(error);
