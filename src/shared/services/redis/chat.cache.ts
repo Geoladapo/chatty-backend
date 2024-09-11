@@ -166,8 +166,9 @@ export class MessageCache extends BaseCache {
       const messages: string[] = await this.client.LRANGE(`messages${parsedReceiver.conversationId}`, 0, -1);
       const unreadMessages: string[] = filter(messages, (listItem: string) => !Helpers.parseJson(listItem).isRead);
 
-      for (const [index, item] of unreadMessages.entries()) {
+      for (const item of unreadMessages) {
         const chatItem = Helpers.parseJson(item) as IMessageData;
+        const index = findIndex(messages, (listItem: string) => listItem.includes(`${chatItem._id}`));
         chatItem.isRead = true;
         await this.client.LSET(`messages${parsedReceiver.conversationId}`, index, JSON.stringify(chatItem));
       }

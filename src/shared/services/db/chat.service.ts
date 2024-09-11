@@ -95,7 +95,7 @@ class ChatService {
         { senderId: receiverId, receiverId: senderId, isRead: false }
       ]
     };
-    await MessageModel.updateOne(query, { $set: { isRead: true } }).exec();
+    await MessageModel.updateMany(query, { $set: { isRead: true } }).exec();
   }
 }
 
