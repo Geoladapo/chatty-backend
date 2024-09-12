@@ -22,7 +22,7 @@ const messageCache: MessageCache = new MessageCache();
 
 export class Add {
   @joiValidation(addChatSchema)
-  public async meesage(req: Request, res: Response): Promise<void> {
+  public async message(req: Request, res: Response): Promise<void> {
     const {
       conversationId,
       receiverId,
