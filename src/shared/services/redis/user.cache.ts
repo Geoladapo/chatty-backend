@@ -105,6 +105,7 @@ export class UserCache extends BaseCache {
     }
   }
 
+  // Get all users from cache
   public async getUsersFromCache(start: number, end: number, excludedUserKey: string): Promise<IUserDocument[]> {
     try {
       if (!this.client.isOpen) {
