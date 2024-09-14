@@ -81,7 +81,7 @@ export class PostCache extends BaseCache {
     }
   }
 
-  public async getPostFromCache(key: string, start: number, end: number): Promise<IPostDocument[]> {
+  public async getPostsFromCache(key: string, start: number, end: number): Promise<IPostDocument[]> {
     try {
       if (!this.client.isOpen) {
         await this.client.connect();
@@ -151,7 +151,7 @@ export class PostCache extends BaseCache {
     }
   }
 
-  public async getUserPostFromCache(key: string, uId: number): Promise<IPostDocument[]> {
+  public async getUserPostsFromCache(key: string, uId: number): Promise<IPostDocument[]> {
     try {
       if (!this.client.isOpen) {
         await this.client.connect();
