@@ -11,6 +11,7 @@ import mongoose, { Query } from 'mongoose';
 import { emailQueue } from '../queues/email.queue';
 import { notificationTemplate } from '../emails/templates/notifications/notification-template';
 import { UserCache } from '../redis/user.cache';
+import { map } from 'lodash';
 
 const userCache: UserCache = new UserCache();
 
@@ -170,6 +171,19 @@ class FollowerService {
       }
     ]);
     return follower;
+  }
+
+  public async getFolloweesIds(userId: string): Promise<string[]> {
+    const followee = await FollowerModel.aggregate([
+      { $match: { followerId: new mongoose.Types.ObjectId(userId) } },
+      {
+        $project: {
+          followeeId: 1,
+          _id: 0
+        }
+      }
+    ]);
+    return map(followee, (result) => result.followeeId.toString());
   }
 }
 
