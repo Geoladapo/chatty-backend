@@ -16,7 +16,7 @@ export class Get {
 
     let posts: IPostDocument[] = [];
     let totalPosts = 0;
-    const cachedPosts: IPostDocument[] = await postCache.getPostFromCache('post', newSkip, limit);
+    const cachedPosts: IPostDocument[] = await postCache.getPostsFromCache('post', newSkip, limit);
     if (cachedPosts.length) {
       posts = cachedPosts;
       totalPosts = await postCache.getTotalPostInCache();

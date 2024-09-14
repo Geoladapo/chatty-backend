@@ -23,11 +23,11 @@ describe('Get', () => {
     it('should send correct json response if posts exist in cache', async () => {
       const req: Request = postMockRequest(newPost, authUserPayload, { page: '1' }) as Request;
       const res: Response = postMockResponse();
-      jest.spyOn(PostCache.prototype, 'getPostFromCache').mockResolvedValue([postMockData]);
+      jest.spyOn(PostCache.prototype, 'getPostsFromCache').mockResolvedValue([postMockData]);
       jest.spyOn(PostCache.prototype, 'getTotalPostInCache').mockResolvedValue(1);
 
       await Get.prototype.posts(req, res);
-      expect(PostCache.prototype.getPostFromCache).toHaveBeenCalledWith('post', 0, 10);
+      expect(PostCache.prototype.getPostsFromCache).toHaveBeenCalledWith('post', 0, 10);
       expect(res.status).toHaveBeenCalledWith(200);
       expect(res.json).toHaveBeenCalledWith({
         message: 'All posts',
@@ -39,7 +39,7 @@ describe('Get', () => {
     it('should send correct json response if posts exist in database', async () => {
       const req: Request = postMockRequest(newPost, authUserPayload, { page: '1' }) as Request;
       const res: Response = postMockResponse();
-      jest.spyOn(PostCache.prototype, 'getPostFromCache').mockResolvedValue([]);
+      jest.spyOn(PostCache.prototype, 'getPostsFromCache').mockResolvedValue([]);
       jest.spyOn(PostCache.prototype, 'getTotalPostInCache').mockResolvedValue(0);
       jest.spyOn(postService, 'getPosts').mockResolvedValue([postMockData]);
       jest.spyOn(postService, 'postsCount').mockResolvedValue(1);
@@ -57,7 +57,7 @@ describe('Get', () => {
     it('should send empty posts', async () => {
       const req: Request = postMockRequest(newPost, authUserPayload, { page: '1' }) as Request;
       const res: Response = postMockResponse();
-      jest.spyOn(PostCache.prototype, 'getPostFromCache').mockResolvedValue([]);
+      jest.spyOn(PostCache.prototype, 'getPostsFromCache').mockResolvedValue([]);
       jest.spyOn(PostCache.prototype, 'getTotalPostInCache').mockResolvedValue(0);
       jest.spyOn(postService, 'getPosts').mockResolvedValue([]);
       jest.spyOn(postService, 'postsCount').mockResolvedValue(0);
