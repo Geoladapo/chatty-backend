@@ -7,7 +7,7 @@ import { authUserPayload } from '@/root/mocks/auth.mocks';
 import { Update } from '../update-notification';
 
 jest.useFakeTimers();
-jest.mock('@service/queues/base.queue');
+jest.mock('@/service/queues/base.queue');
 
 Object.defineProperties(notificationServer, {
   socketIONotificationObject: {

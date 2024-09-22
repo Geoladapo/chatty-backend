@@ -50,7 +50,7 @@ class Application {
   private static shutDownProperly(exitCode: number): void {
     Promise.resolve()
       .then(() => {
-        log.info('SHutdown complete');
+        log.info('Shutdown complete');
         process.exit(exitCode);
       })
       .catch((error) => {
