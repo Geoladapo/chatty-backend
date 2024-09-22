@@ -20,6 +20,6 @@ export class Get {
     const userObjectId: ObjectId = new mongoose.Types.ObjectId(req.params.userId);
     const cachedFollowers: IFollowerData[] = await followerCache.getFollowersFromCache(`followers:${req.params.userId}`);
     const followers: IFollowerData[] = cachedFollowers.length ? cachedFollowers : await followerService.getFollowerData(userObjectId);
-    res.status(HTTP_STATUS.OK).json({ message: 'User following', followers });
+    res.status(HTTP_STATUS.OK).json({ message: 'User followers', followers });
   }
 }

@@ -35,7 +35,7 @@ export class Add {
     await Promise.all([addFollowerToCache, addFolloweeToCache]);
 
     // send data to queue
-    followerQueue.addFollowerJob('addFollwerToDB', {
+    followerQueue.addFollowerJob('addFollowerToDB', {
       keyOne: `${req.currentUser!.userId}`,
       keyTwo: `${followerId}`,
       username: req.currentUser!.username,

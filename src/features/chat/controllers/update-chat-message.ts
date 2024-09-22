@@ -22,6 +22,6 @@ export class Update {
       receiverId: new mongoose.Types.ObjectId(receiverId)
     });
 
-    res.status(HTTP_STATUS.OK).json({ message: 'Message marked as deleted' });
+    res.status(HTTP_STATUS.OK).json({ message: 'Message marked as read' });
   }
 }

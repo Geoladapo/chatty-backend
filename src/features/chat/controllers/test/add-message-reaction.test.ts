@@ -9,7 +9,7 @@ import { authUserPayload } from '@/root/mocks/auth.mocks';
 
 jest.useFakeTimers();
 jest.mock('@/service/queues/base.queue');
-jest.mock('@/service/redis/message.cache');
+jest.mock('@/service/redis/chat.cache');
 
 Object.defineProperties(chatServer, {
   socketIOChatObject: {

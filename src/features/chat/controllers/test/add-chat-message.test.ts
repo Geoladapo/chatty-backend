@@ -16,7 +16,7 @@ jest.useFakeTimers();
 jest.mock('@/service/queues/base.queue');
 jest.mock('@/socket/user');
 jest.mock('@/service/redis/user.cache');
-jest.mock('@/service/redis/message.cache');
+jest.mock('@/service/redis/chat.cache');
 jest.mock('@/service/queues/email.queue');
 
 Object.defineProperties(chatServer, {

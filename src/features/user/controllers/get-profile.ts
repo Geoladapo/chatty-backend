@@ -45,14 +45,14 @@ export class Get {
   public async profile(req: Request, res: Response): Promise<void> {
     const cachedUser: IUserDocument = (await userCache.getUserFromCache(`${req.currentUser!.userId}`)) as IUserDocument;
     const existingUser: IUserDocument = cachedUser ? cachedUser : await userService.getUserById(`${req.currentUser!.userId}`);
-    res.status(HTTP_STATUS.OK).json({ message: 'Get user profile', users: existingUser });
+    res.status(HTTP_STATUS.OK).json({ message: 'Get user profile', user: existingUser });
   }
 
   public async profileByUserId(req: Request, res: Response): Promise<void> {
     const { userId } = req.params;
     const cachedUser: IUserDocument = (await userCache.getUserFromCache(userId)) as IUserDocument;
     const existingUser: IUserDocument = cachedUser ? cachedUser : await userService.getUserById(userId);
-    res.status(HTTP_STATUS.OK).json({ message: 'Get user profile by id', users: existingUser });
+    res.status(HTTP_STATUS.OK).json({ message: 'Get user profile by id', user: existingUser });
   }
 
   public async profileAndPosts(req: Request, res: Response): Promise<void> {
@@ -66,22 +66,19 @@ export class Get {
       ? cachedUserPosts
       : await postService.getPosts({ username: userName }, 0, 100, { createdAt: -1 });
 
-    res.status(HTTP_STATUS.OK).json({ message: 'Get user profile and posts', users: existingUser, post: userPosts });
+    res.status(HTTP_STATUS.OK).json({ message: 'Get user profile and posts', user: existingUser, posts: userPosts });
   }
 
   public async randomUserSuggestions(req: Request, res: Response): Promise<void> {
     let randomUsers: IUserDocument[] = [];
-    const cachedUsers: IUserDocument[] = await userCache.getRandomUsersFromCache(
-      `${req.currentUser!.userId}`,
-      `${req.currentUser!.username}`
-    );
+    const cachedUsers: IUserDocument[] = await userCache.getRandomUsersFromCache(`${req.currentUser!.userId}`, req.currentUser!.username);
     if (cachedUsers.length) {
       randomUsers = [...cachedUsers];
     } else {
       const users: IUserDocument[] = await userService.getRandomUsers(req.currentUser!.userId);
       randomUsers = [...users];
     }
-    res.status(HTTP_STATUS.OK).json({ messge: 'User suggestions', users: randomUsers });
+    res.status(HTTP_STATUS.OK).json({ message: 'User suggestions', users: randomUsers });
   }
 
   private async allUsers({ newSkip, limit, skip, userId }: IUserAll): Promise<IAllUsers> {

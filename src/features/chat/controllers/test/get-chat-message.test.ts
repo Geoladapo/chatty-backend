@@ -7,7 +7,7 @@ import { chatService } from '@/service/db/chat.service';
 
 jest.useFakeTimers();
 jest.mock('@/service/queues/base.queue');
-jest.mock('@/service/redis/message.cache');
+jest.mock('@/service/redis/chat.cache');
 
 describe('Get', () => {
   beforeEach(() => {
