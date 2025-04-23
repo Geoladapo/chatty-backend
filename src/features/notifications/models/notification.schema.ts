@@ -37,7 +37,7 @@ notificationSchema.methods.insertNotification = async function (body: INotificat
     gifUrl
   } = body;
 
-  await NotificationModel.create([
+  await NotificationModel.create({
     userTo,
     userFrom,
     message,
@@ -51,7 +51,7 @@ notificationSchema.methods.insertNotification = async function (body: INotificat
     imgId,
     imgVersion,
     gifUrl
-  ]);
+  });
   try {
     const notifications: INotificationDocument[] = await notificationService.getNotifications(userTo);
     return notifications;

@@ -1,15 +1,15 @@
 import { Application } from 'express';
-import { authRoutes } from './features/auth/routes/authRoutes';
-import { serverAdapter } from './shared/services/queues/base.queue';
-import { currentUserRoutes } from './features/auth/routes/currentRoutes';
-import { authMiddleware } from './shared/globals/helpers/auth-middleware';
 import { postRoutes } from '@/post/routes/postRoutes';
-import { reactionRoutes } from './features/reactions/routes/reaction-routes';
-import { commentRoutes } from './features/comments/routes/commentsRoutes';
-import { followerRoutes } from './features/followers/routes/followerRoutes';
-import { notificationRoutes } from './features/notifications/routes/notificationRoutes';
 import { chatRoutes } from '@/chat/routes/chat.routes';
 import { healthRoutes } from '@/user/routes/health.routes';
+import { reactionRoutes } from '@/reaction/routes/reaction-routes';
+import { commentRoutes } from '@/comment/routes/commentsRoutes';
+import { followerRoutes } from '@/follower/routes/followerRoutes';
+import { notificationRoutes } from '@/notification/routes/notificationRoutes';
+import { serverAdapter } from '@/service/queues/base.queue';
+import { authRoutes } from '@/auth/routes/authRoutes';
+import { currentUserRoutes } from '@/auth/routes/currentRoutes';
+import { authMiddleware } from '@/global/helpers/auth-middleware';
 
 const BASE_PATH = '/api/v1';
 
