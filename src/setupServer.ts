@@ -1,4 +1,4 @@
-import { SocketIOFollowerHandler } from './shared/sockets/follower';
+import { SocketIOFollowerHandler } from '@/socket/follower';
 import { Application, json, urlencoded, Response, Request, NextFunction } from 'express';
 import http from 'http';
 import cors from 'cors';
@@ -15,7 +15,7 @@ import { config } from './config';
 import Logger from 'bunyan';
 import apiStats from 'swagger-stats';
 import applicationRoutes from './routes';
-import { CustomError, IErrorResponse } from './shared/globals/helpers/error-handler';
+import { CustomError, IErrorResponse } from '@/global/helpers/error-handler';
 import { SocketIOPostHandler } from '@/socket/post.socket';
 import { SocketIOUserHandler } from '@/socket/user';
 import { SocketIONotificationHandler } from '@/socket/notification';
